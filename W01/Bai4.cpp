@@ -1,6 +1,6 @@
 #include<iostream>
 #include<iomanip>
-#include<string>
+#include<cstring>
 
 using namespace std;
 
@@ -44,64 +44,76 @@ NgayThang::~NgayThang() {}
 // class SinhVien
 class SinhVien{
 private:
-    string MSSV;
-    string hoTen;
+    char* MSSV;
+    char* hoTen;
     double DLT, DTH;
     NgayThang ngaySinh;
 public:
     SinhVien();
-    SinhVien(const string& MSSV);
-    SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH);
-    SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH,
+    SinhVien(const char* _MSSV);
+    SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH);
+    SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH,
              int ngSinh, int tSinh, int nSinh);
-    SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH, NgayThang ngaySinh);
+    SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH, NgayThang ngaySinh);
     SinhVien(const SinhVien& other);
     void Xuat();
     ~SinhVien();
 };
 
 SinhVien::SinhVien(){
-    MSSV = "xxxxxxx";
-    hoTen = "xxxx";
+    MSSV = new char[strlen("xxxxxxx") + 1];
+    strcpy(MSSV, "xxxxxxx");
+    hoTen = new char[strlen("xxxx") + 1];
+    strcpy(hoTen, "xxxx");
     DLT = DTH = 10;
     ngaySinh = NgayThang();
 }
 
-SinhVien::SinhVien(const string& MSSV){
-    this->MSSV = MSSV;
-    hoTen = "xxxx";
+SinhVien::SinhVien(const char* _MSSV){
+    MSSV = new char[strlen(_MSSV) + 1];
+    strcpy(MSSV, _MSSV);
+    hoTen = new char[strlen("xxxx") + 1];
+    strcpy(hoTen, "xxxx");
     DLT = DTH = 10;
     ngaySinh = NgayThang();
 }
 
-SinhVien::SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH){
-    this->MSSV = MSSV;
-    this->hoTen = hoTen;
+SinhVien::SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH){
+    MSSV = new char[strlen(_MSSV) + 1];
+    hoTen = new char[strlen(_hoTen) + 1];
+    strcpy(MSSV, _MSSV);
+    strcpy(hoTen, _hoTen);
     this->DLT = DLT;
     this->DTH = DTH;
     ngaySinh = NgayThang();
 }
 
-SinhVien::SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH,
+SinhVien::SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH,
                     int ngSinh, int tSinh, int nSinh){
-    this->MSSV = MSSV;
-    this->hoTen = hoTen;
+    MSSV = new char[strlen(_MSSV) + 1];
+    hoTen = new char[strlen(_hoTen) + 1];
+    strcpy(MSSV, _MSSV);
+    strcpy(hoTen, _hoTen);
     this->DLT = DLT;
     this->DTH = DTH;
     ngaySinh = NgayThang(ngSinh, tSinh, nSinh);
 }
 
-SinhVien::SinhVien(const string& MSSV, const string& hoTen, double DLT, double DTH, NgayThang ngaySinh){
-    this->MSSV = MSSV;
-    this->hoTen = hoTen;
+SinhVien::SinhVien(const char* _MSSV, const char* _hoTen, double DLT, double DTH, NgayThang ngaySinh){
+    MSSV = new char[strlen(_MSSV) + 1];
+    hoTen = new char[strlen(_hoTen) + 1];
+    strcpy(MSSV, _MSSV);
+    strcpy(hoTen, _hoTen);
     this->DLT = DLT;
     this->DTH = DTH;
     this->ngaySinh = ngaySinh;
 }
 
 SinhVien::SinhVien(const SinhVien& other){
-    this->MSSV = other.MSSV;
-    this->hoTen = other.hoTen;
+    MSSV = new char[strlen(other.MSSV) + 1];
+    hoTen = new char[strlen(other.hoTen) + 1];
+    strcpy(MSSV, other.MSSV);
+    strcpy(hoTen, other.hoTen);
     this->DLT = other.DLT;
     this->DTH = other.DTH;
     this->ngaySinh = other.ngaySinh;
@@ -115,7 +127,12 @@ void SinhVien::Xuat(){
          << "DTH: " << DTH << endl;
 }
 
-SinhVien::~SinhVien() {}
+SinhVien::~SinhVien(){
+    delete[] MSSV;
+    MSSV = nullptr;
+    delete[] hoTen;
+    hoTen = nullptr;
+}
 
 int main(){
     SinhVien sv1;

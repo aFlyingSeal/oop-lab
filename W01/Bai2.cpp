@@ -1,69 +1,84 @@
-#include<iostream>
-#include<string>
-#include<sstream>
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 
-class Ngay{
+class Ngay
+{
 private:
     int ngay, thang, nam;
+
 public:
     Ngay();
     Ngay(int ngay, int thang, int nam);
     Ngay(int ngay);
-    Ngay(const string& s);
+    Ngay(const char *s);
     void Xuat();
     void chuanHoa();
     ~Ngay();
 };
 
-Ngay::Ngay(){
+Ngay::Ngay()
+{
     ngay = thang = nam = 1;
 }
 
-Ngay::Ngay(int ngay, int thang, int nam){
+Ngay::Ngay(int ngay, int thang, int nam)
+{
     this->ngay = abs(ngay);
     this->thang = abs(thang);
     this->nam = abs(nam);
     chuanHoa();
 }
 
-Ngay::Ngay(int ngay){
+Ngay::Ngay(int ngay)
+{
     this->ngay = abs(ngay);
     thang = nam = 1;
     chuanHoa();
 }
 
-Ngay::Ngay(const string& s){
-    char delimeter = '-';
-    stringstream ss(s);
-    string token;
-    getline(ss, token, delimeter); ngay = stoi(token);
-    getline(ss, token, delimeter); thang = stoi(token);
-    getline(ss, token, delimeter); nam = stoi(token);
+Ngay::Ngay(const char *s)
+{
+    char *sCpy = new char[strlen(s) + 1];
+    strcpy(sCpy, s);
+
+    char *token = strtok(sCpy, "-");
+    ngay = atoi(token);
+    token = strtok(nullptr, "-");
+    thang = atoi(token);
+    token = strtok(nullptr, "-");
+    nam = atoi(token);
+
+    delete[] sCpy;
     chuanHoa();
 }
 
-void Ngay::Xuat(){
+void Ngay::Xuat()
+{
     cout << ngay << "/" << thang << "/" << nam;
 }
 
-void Ngay::chuanHoa(){
-    if (ngay > 30){
+void Ngay::chuanHoa()
+{
+    if (ngay > 30)
+    {
         int thangDu = ngay / 30;
-        ngay = ngay % 30;
+        ngay %= 30;
         thang += thangDu;
     }
-    if (thang > 12){
+    if (thang > 12)
+    {
         int namDu = thang / 12;
-        thang = thang % 12;
-        nam += namDu; 
+        thang %= 12;
+        nam += namDu;
     }
 }
 
 Ngay::~Ngay() {}
 
-int main(){
+int main()
+{
     Ngay n1;
     n1.Xuat();
     cout << endl;
@@ -78,7 +93,7 @@ int main(){
     cout << endl;
     Ngay n5("12-12-2012");
     n5.Xuat();
-    cout << endl << endl;
+    cout << endl;
 
     system("pause");
 }
