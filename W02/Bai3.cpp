@@ -22,14 +22,15 @@ private:
     }
 public:
     HocSinh();
-    HocSinh(const char* _ten, double diem_1, double diem_2, double diem_3);
+    HocSinh(const char* ten, double diem_1, double diem_2, double diem_3);
 
     double layDTB() const;
 
-    void DatHoTen(const char* _ten);
+    void DatHoTen(const char* tenMoi);
     void GanDiem(double diem_1, double diem_2, double diem_3);
 
     static const HocSinh& HSDiemTBCaoNhat();
+    
     void In(ostream& os) const;
     ~HocSinh();
 };
@@ -40,19 +41,21 @@ HocSinh::HocSinh(){
     MSSV = new char[9];
     sprintf(MSSV, "%d", nextMSSV);
     diem_1 = diem_2 = diem_3 = diem_TB = 0.0;
+
     capNhatMaxDTB();
     nextMSSV++;
 }
 
-HocSinh::HocSinh(const char* _ten, double diem_1, double diem_2, double diem_3){
-    ten = new char[strlen(_ten) + 1];
-    strcpy(ten, _ten);
+HocSinh::HocSinh(const char* ten, double diem_1, double diem_2, double diem_3){
+    this->ten = new char[strlen(ten) + 1];
+    strcpy(this->ten, ten);
     MSSV = new char[9];
     sprintf(MSSV, "%d", nextMSSV);
     this->diem_1 = fabs(diem_1);
     this->diem_2 = fabs(diem_2);
     this->diem_3 = fabs(diem_3);
     diem_TB = layDTB();
+
     capNhatMaxDTB();
     nextMSSV++;
 }
@@ -61,10 +64,10 @@ double HocSinh::layDTB() const{
     return (diem_1 + diem_2 + diem_3) / 3;
 }
 
-void HocSinh::DatHoTen(const char* _ten){
+void HocSinh::DatHoTen(const char* tenMoi){
     delete[] ten;
-    ten = new char[strlen(_ten) + 1];
-    strcpy(ten, _ten);
+    ten = new char[strlen(tenMoi) + 1];
+    strcpy(ten, tenMoi);
 }
 
 void HocSinh::GanDiem(double diem_1, double diem_2, double diem_3){
@@ -72,6 +75,7 @@ void HocSinh::GanDiem(double diem_1, double diem_2, double diem_3){
     this->diem_2 = fabs(diem_2);
     this->diem_3 = fabs(diem_3);
     diem_TB = layDTB();
+
     capNhatMaxDTB();
 }
 
