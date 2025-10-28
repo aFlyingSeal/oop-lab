@@ -91,11 +91,13 @@ bool SoNguyenLon::operator > (const SoNguyenLon& other){
         return true;
     if (size < other.size)
         return false;
-    for (int i = size - 1; i >= 0; i--){
-        if (n[i] <= other.n[i])
+    for (int i = 0; i < size; i++){
+        if (n[i] > other.n[i])
+            return true;
+        if (n[i] < other.n[i])
             return false;
     }
-    return true;
+    return false;
 }
 
 SoNguyenLon& SoNguyenLon::operator = (const SoNguyenLon& other){
@@ -224,7 +226,7 @@ SoNguyenLon::~SoNguyenLon(){
     n = nullptr;
 }
 
-SoNguyenLon SoNguyenLon::maxSNL;
+SoNguyenLon SoNguyenLon::maxSNL("0");
 
 int main(){
     SoNguyenLon snl1;
