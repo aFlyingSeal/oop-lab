@@ -15,11 +15,7 @@ private:
     
     static const HocSinh* maxDTB;
 
-    void capNhatMaxDTB(){
-        if (maxDTB == nullptr || diem_TB > maxDTB->layDTB()){
-            maxDTB = this;
-        }
-    }
+    void capNhatMaxDTB();
 public:
     HocSinh();
     HocSinh(const char* ten, double diem_1, double diem_2, double diem_3);
@@ -34,6 +30,12 @@ public:
     void In(ostream& os) const;
     ~HocSinh();
 };
+
+void HocSinh::capNhatMaxDTB(){
+    if (maxDTB == nullptr || diem_TB > maxDTB->layDTB()){
+        maxDTB = this;
+    }
+}
 
 HocSinh::HocSinh(){
     ten = new char[strlen("xxxxxxx") + 1];

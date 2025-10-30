@@ -10,11 +10,7 @@ private:
 
     static SoNguyenLon maxSNL;
 
-    void capNhatSNLMax(){
-        if (*this > maxSNL){
-            maxSNL = *this;
-        }
-    }
+    void capNhatSNLMax();
 public:
     SoNguyenLon();
     SoNguyenLon(const char* x);
@@ -22,8 +18,8 @@ public:
     SoNguyenLon(int d, int size);
     SoNguyenLon(int x);
 
-    bool operator > (const SoNguyenLon& other);
-    SoNguyenLon& operator = (const SoNguyenLon& other);
+    bool lonHon(const SoNguyenLon& other);
+    void gan(const SoNguyenLon& other);
 
     SoNguyenLon Tru(const SoNguyenLon& other);
     SoNguyenLon Cong(int hangSo);
@@ -35,6 +31,12 @@ public:
 
     ~SoNguyenLon();
 };
+
+void SoNguyenLon::capNhatSNLMax(){
+    if (this->lonHon(maxSNL)){
+        maxSNL.gan(*this);
+    }
+}
 
 SoNguyenLon::SoNguyenLon(){
     size = 1;
@@ -86,7 +88,7 @@ SoNguyenLon::SoNguyenLon(int x){
     capNhatSNLMax();
 }
 
-bool SoNguyenLon::operator > (const SoNguyenLon& other){
+bool SoNguyenLon::lonHon(const SoNguyenLon& other){
     if (size > other.size)
         return true;
     if (size < other.size)
@@ -100,14 +102,13 @@ bool SoNguyenLon::operator > (const SoNguyenLon& other){
     return false;
 }
 
-SoNguyenLon& SoNguyenLon::operator = (const SoNguyenLon& other){
+void SoNguyenLon::gan(const SoNguyenLon& other){
     if (this != &other){
         delete[] n;
         size = other.size;
         n = new char[size + 1];
         strcpy(n, other.n);
     }
-    return *this;
 }
 
 SoNguyenLon SoNguyenLon::Tru(const SoNguyenLon& other){
@@ -133,17 +134,6 @@ SoNguyenLon SoNguyenLon::Tru(const SoNguyenLon& other){
     }
     
     while (i >= 0){
-        // if (n[i] == '0' && muon > 0){
-        //     tmp[k++] = '9';
-        //     i--;
-        //     continue;
-        // }
-        // int hieu = (n[i] - '0') - muon;
-        // if (hieu > 0 || muon > 0){
-        //     tmp[k++] = char(hieu + '0');
-        // }
-        // muon = 0;
-        // i--;
         int hieu = (n[i] - '0') - muon;
         if (hieu < 0){
             hieu += 10;
