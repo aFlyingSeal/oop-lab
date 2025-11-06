@@ -66,11 +66,6 @@ void Ngay::chuanHoa(){
         else
             ngayTrongThang = mangNgay[thang];
     }
-
-    // while (thang > 12){
-    //     thang -= 12;
-    //     nam++;
-    // }
 }
 
 Ngay::Ngay(){
@@ -79,6 +74,7 @@ Ngay::Ngay(){
 
 Ngay::Ngay(int soNgay){
     ngay = abs(soNgay);
+    if (ngay == 0) ngay = 1;
     thang = nam = 1;
 
     chuanHoa();
@@ -96,19 +92,16 @@ Ngay Ngay::operator+(const Ngay& other){
     Ngay kq(this->ngay + other.ngay,
             this->thang + other.thang,
             this->nam + other.nam);
-    kq.chuanHoa();
     return kq;
 }
 
 Ngay Ngay::operator+(int soNgay){
     Ngay kq(this->ngay + soNgay, this->thang, this->nam);
-    kq.chuanHoa();
     return kq;
 }
 
 Ngay operator+(int soNgay, const Ngay& n){
     Ngay kq(soNgay + n.ngay, n.thang, n.nam);
-    kq.chuanHoa();
     return kq;
 }
 
@@ -116,19 +109,16 @@ Ngay Ngay::operator-(const Ngay& other){
     Ngay kq(this->ngay - other.ngay,
             this->thang - other.thang,
             this->nam - other.nam);
-	kq.chuanHoa();
 	return kq;
 }	
 
 Ngay Ngay::operator-(int soNgay){
     Ngay kq(this->ngay - soNgay, this->thang, this->nam);
-	kq.chuanHoa();
 	return kq;
 }
 
 Ngay operator-(int soNgay, const Ngay& n){
     Ngay kq(soNgay - n.ngay, n.thang, n.nam);
-	kq.chuanHoa();
 	return kq;
 }
 
