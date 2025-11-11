@@ -2,6 +2,9 @@
 #define _LINKED_LIST_
 
 #include<iostream>
+#include<cstring>
+#include<ctime>
+#include<cstdlib>
 
 using namespace std;
 
@@ -101,13 +104,20 @@ Node<T>* LinkedList<T>::RemoveTail(){
     if (tail == nullptr){
         return nullptr;
     }
-    Node<T>* tmp = head;
-    while (tmp->next != tail){
-        tmp = tmp->next;
+    Node<T>* removed = tail;
+    if (head == tail){
+        head = tail = nullptr;
     }
-    tail = tmp;
+    else{
+        Node<T>* tmp = head;
+        while (tmp->next != tail){
+            tmp = tmp->next;
+        }
+        tail = tmp;
+        tail->next = nullptr;
+    }
     n--;
-    return tmp;
+    return removed;
 }
 
 template<class T>
