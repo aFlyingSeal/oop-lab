@@ -30,6 +30,7 @@ public:
     Node<T>* RemoveTail();
 
     T& operator[](int idx);
+    const T& operator[](int idx) const;
 
     template<class T1>
     friend ostream& operator<<(ostream& out, const LinkedList<T1>& list);
@@ -122,6 +123,18 @@ Node<T>* LinkedList<T>::RemoveTail(){
 
 template<class T>
 T& LinkedList<T>::operator[](int idx){
+    if (idx < 0 || idx >= n){
+        throw out_of_range("out of range");
+    }
+    Node<T>* p = head;
+    while (idx--){
+        p = p->next;
+    }
+    return p->data;
+}
+
+template<class T>
+const T& LinkedList<T>::operator[](int idx) const{
     if (idx < 0 || idx >= n){
         throw out_of_range("out of range");
     }
