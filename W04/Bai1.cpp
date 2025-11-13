@@ -20,10 +20,12 @@ CString::CString(){
     arr = nullptr;
 }
 
-CString::CString(const char* str){
-    int size = strlen(str);
-    arr = new char[size + 1];
-    strcpy(arr, str);
+CString::CString(const char* str): CString(){
+    if (str != nullptr){
+        int size = strlen(str);
+        arr = new char[size + 1];
+        strcpy(arr, str);
+    }
 }
 
 char& CString::operator[](int idx){

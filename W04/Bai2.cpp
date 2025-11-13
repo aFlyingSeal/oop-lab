@@ -22,10 +22,12 @@ CString::CString(){
     arr = nullptr;
 }
 
-CString::CString(const char* str){
-    int size = strlen(str);
-    arr = new char[size + 1];
-    strcpy(arr, str);
+CString::CString(const char* str): CString(){
+    if (str != nullptr){
+        int size = strlen(str);
+        arr = new char[size + 1];
+        strcpy(arr, str);
+    }
 }
 
 CString::CString(const CString& other): CString(other.arr){
@@ -77,6 +79,7 @@ int main(){
     CString cs3 = cs1;
     cs3[iN] = '3';
     cout << cs1 << endl << cs2 << endl << cs3 << endl;
+    cout << "cs3 = cs2" << endl;
     cs3 = cs2;
     cout << cs3 << endl;
     system("pause");
