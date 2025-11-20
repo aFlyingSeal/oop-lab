@@ -39,6 +39,25 @@ public:
         }
         ~SoNguyenLon(){}
 
+        bool operator>(const SoNguyenLon& other){
+            if (SLChuSo() > other.SLChuSo()){
+                return true;
+            }
+            if (SLChuSo() < other.SLChuSo()){
+                return false;
+            }
+            for (int i = 0; i < SLChuSo(); i++){
+                if (arr[i] == other.arr[i]){
+                    continue;
+                }
+                if (arr[i] > other.arr[i]){
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
         SoNguyenLon operator+(const SoNguyenLon& other){
             SoNguyenLon kq;
             kq.arr.Clear();
@@ -74,7 +93,7 @@ public:
         }
 
         SoNguyenLon operator-(const SoNguyenLon& other){
-            if (SLChuSo() < other.SLChuSo()){
+            if (!(*this > other)){
                 return SoNguyenLon((long long)0);
             }
             SoNguyenLon kq;
@@ -138,6 +157,14 @@ private:
     SLList<SoNguyenLon> data;
 public:
     ListSNL(){}
+
+    using Iterator = SLList<SoNguyenLon>::Iterator;
+    Iterator begin(){
+        return data.begin();
+    }
+    Iterator end(){
+        return data.end();
+    }
 
     void AddTail(SoNguyenLon snl){
         data.AddTail(snl);
