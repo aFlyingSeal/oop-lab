@@ -78,6 +78,7 @@ MyString operator+(const MyString& ms1, const MyString& ms2){
 SLList<MyString> MyString::Split(SLList<char> delimeters, bool removeEmpty){
     SLList<MyString> res;
 
+    // put all delimeters in an array
     int deliCount = delimeters.size();
     char* delimeter = new char[deliCount + 1];
     for (int i = 0; i < deliCount; i++){
@@ -85,17 +86,48 @@ SLList<MyString> MyString::Split(SLList<char> delimeters, bool removeEmpty){
     }
     delimeter[deliCount] = '\0';
 
-    char* arrCpy = new char[size + 1];
-    strcpy(arrCpy, arr);
+    // processing logic
+    if (!removeEmpty){
+        int start = 0;
+        for (int i = 0; i < size; i++){
+            bool isDelimeter = false;
+            if (i < size){
+                char cur = arr[i];
+                for (int j = 0; j < deliCount; j++){
+                    if (cur == delimeter[j]){
+                        isDelimeter = true;
+                        break;
+                    }
+                }
+            }
+            if (i == size || isDelimeter){
+                int len = i - start;
+                if (len > 0 || (len == 0 && !removeEmpty)){
+                    char* split = new char[len + 1];
+                    for (int j = 0; j < len; j++){
+                        split[j] = arr[start + j];
+                    }
+                    split[len] = '\0';
+                    res.push_back(MyString(split));
+                    delete[] split;
+                }
+                start = i + 1;
+            }
+        }
+    }
+    else{
+        char* arrCpy = new char[size + 1];
+        strcpy(arrCpy, arr);
 
-    char* split = strtok(arrCpy, delimeter);
-    while (split != nullptr){
-        res.push_back(MyString(split));
-        split = strtok(nullptr, delimeter);
+        char* split = strtok(arrCpy, delimeter);
+        while (split != nullptr){
+            res.push_back(MyString(split));
+            split = strtok(nullptr, delimeter);
+        }
+        delete[] arrCpy;
     }
 
     delete[] delimeter;
-    delete[] arrCpy;
     return res;
 }
 
@@ -131,7 +163,7 @@ int main(){
     {
         cout << *itMS << " ";
     }
-    cout << endl << "size=" << vMs.size() << endl << endl;
+    cout << endl << "size= " << vMs.size() << endl << endl;
 
     system("pause");
     return 0;
