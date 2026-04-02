@@ -1,44 +1,60 @@
-# Báo cáo: Tìm hiểu về công cụ Notebook trong học tập
+# Báo cáo: Tìm hiểu công cụ hỗ trợ LLMs và tạo UI
 
-## 1. Khái niệm và vai trò của Notebook:
+## 1. Tìm hiểu Ollama và so sánh với LMStudio:
 
-Khái niệm: Notebook (điển hình là Jupyter Notebook) là một môi trường điện toán tương tác cho phép người dùng kết hợp giữa mã nguồn (code), văn bản định dạng (markdown), phương trình toán học và hình ảnh trực quan trong cùng một tài liệu duy nhất.
+Ollama là một nền tảng mã nguồn mở cho phép chạy các mô hình ngôn ngữ lớn (LLMs) như Llama 3, Mistral, hay Phi-3 trực tiếp trên máy tính cá nhân một cách đơn giản nhất.
 
-Vai trò:
+Các gói cung cấp & Nhu cầu sử dụng:
 
-- Giúp việc học trở nên trực quan: Chạy code đến đâu, thấy kết quả (biểu đồ, bảng số liệu) đến đó.
-- Hỗ trợ lưu trữ tư duy: Không chỉ là viết code, người học có thể ghi chú giải thích thuật toán ngay bên cạnh các dòng lệnh.
-- Phù hợp cho việc thử nghiệm sai - sửa (trial and error) trong tư duy tính toán.
+- Local Execution (Cá nhân): Chạy offline hoàn toàn, bảo mật dữ liệu tuyệt đối. Phù hợp cho việc học tập, thử nghiệm prompt mà không tốn phí API.
+- Docker/Self-hosted: Phù hợp cho nhóm dự án cần triển khai một "AI Server" nội bộ để nhiều người cùng truy cập qua API.
 
-## 2. Đặc điểm và Lợi ích của Google Colab & Kaggle Notebooks
+Đề xuất cho môn học: Sử dụng Ollama để chạy các mô hình nhỏ (như Phi-3 3.8B hoặc Llama 3 8B) để hỗ trợ giải thích thuật toán, kiểm tra code Python/C++ ngay trên máy local mà không cần kết nối internet.
 
-Cả hai đều là nền tảng dựa trên đám mây (Cloud-based), không cần cài đặt cấu hình phức tạp trên máy tính cá nhân.
+So sánh nhanh Ollama vs. LMStudio
 
-- Google Colab:
-    - Đặc điểm: Tích hợp sâu với hệ sinh thái Google (Drive, Sheets).
-    - Lợi ích: Cung cấp GPU/TPU miễn phí, dễ dàng soạn thảo như Google Docs, hỗ trợ nhiều thư viện Python phổ biến.
-- Kaggle Notebook:
-    - Đặc điểm: Nằm trong cộng đồng khoa học dữ liệu Kaggle.
-    - Lợi ích: Tiếp cận kho dữ liệu khổng lồ (Datasets) có sẵn, môi trường được tối ưu hóa cho các bài toán phân tích dữ liệu và học máy chuyên sâu.
+|Tiêu chí|Ollama|LMStudio|
+|---|---|---|
+|Giao diện|Dòng lệnh (CLI) là chính|Giao diện đồ họa (GUI) rất trực quan|
+|Quản lý mô hình|Đơn giản, dùng lệnh `ollama run`|Cho phép tùy chỉnh sâu các thông số kỹ thuật (Temperature, Context Length)|
+|Hiệu suất|Nhẹ, tối ưu cực tốt cho macOS (Apple Silicon) và Linux|Đầy đủ nhưng chiếm nhiều tài nguyên hệ thống hơn để duy trì GUI|
+|Tính ứng dụng|Phù hợp để tích hợp vào code (Backend, API)|Phù hợp để chat và trải nghiệm thử các mô hình mới|
 
-## 3. So sánh Google Colab và Kaggle Notebooks
+## 2. Sử dụng Ollama với Google Colab
 
-|Tiêu chí|Google Colab|Kaggle Notebooks|
-|:---:|:---:|:---:|
-|Dễ tiếp cận|Rất cao (chỉ cần tài khoản Google)|Trung bình (cần đăng ký tài khoản Kaggle)|
-|Thuận tiện thực hành|Giao diện đơn giản, quen thuộc|Giao diện chuyên nghiệp cho Data Science|
-|Hỗ trợ dữ liệu|Tốt thông qua Google Drive|Rất mạnh nhờ kho Datasets nội bộ|
-|Chia sẻ & Cộng tác|Như Google Docs (chia sẻ link, sửa chung)|Chia sẻ công khai hoặc tạo nhóm cuộc thi|
-|Khả năng cộng tác|Thời gian thực (Real-time)|Chủ yếu qua Versioning (các phiên bản)|
+Để sử dụng Ollama trên Colab (môi trường không có sẵn Ollama), chúng ta thường dùng các cách sau:
 
-## 4. Phân tích và Kết luận: Lựa chọn cho môn Tư duy tính toán
+1. Sử dụng Ngrok hoặc Cloudflare Tunnel: Cài đặt Ollama vào runtime của Colab, sau đó dùng tunnel để tạo một public URL kết nối với API của nó.
 
-Trong ngữ cảnh môn học Tư duy tính toán, việc lựa chọn công cụ nên dựa trên mục tiêu cụ thể:
+2. Sử dụng thư viện Python (như colab-xterm): Mở terminal ngay trong Colab để chạy lệnh cài đặt Ollama trực tiếp.
 
-- Lựa chọn Google Colab khi:
-    - Cần một không gian để làm bài tập nhóm nhanh chóng, cùng nhau chỉnh sửa mã nguồn thời gian thực.
-    - Lưu trữ bài tập trực tiếp trên Google Drive để nộp bài dễ dàng.
-    - Phù hợp cho các dự án nhỏ, giải thuật cơ bản hoặc minh họa toán học bằng Python.
-- Lựa chọn Kaggle Notebooks khi:
-    - Bài tập yêu cầu phân tích trên các bộ dữ liệu lớn, thực tế (dân số, thời tiết, kinh tế...).
-    - Người học muốn tham khảo các lời giải (kernels) từ cộng đồng chuyên gia để rèn luyện tư duy giải quyết vấn đề.
+Phân tích & So sánh:
+- Trình duyệt trực tiếp: Tiện lợi nhưng giới hạn thời gian runtime (thường bị ngắt sau một khoảng thời gian không tương tác)
+- Kết nối API: Cho phép dùng GPU mạnh mẽ của Google để chạy các mô hình nặng mà máy cá nhân không gánh nổi
+
+Kết luận: Nếu máy bạn có GPU yếu, hãy dùng Ollama trên Colab qua Ngrok. Nếu chỉ cần chạy các model nhẹ để học tập, nên dùng Ollama trực tiếp trên máy local để ổn định nhất.
+
+## 3. Google Colab trên VS Code
+
+Thao tác cơ bản:
+
+1. Cài đặt Extension Jupyter trên VS Code.
+2. Mở bảng lệnh (Ctrl+Shift+P), chọn "Jupyter: Specify Jupyter Server for Connections".
+3. Chọn "Existing" và dán đường dẫn URL từ Google Colab (lấy từ mục "Connect to a local runtime" hoặc sử dụng Token).
+
+So sánh VS Code vs. Trình duyệt:
+- VS Code: Hỗ trợ IntelliSense (gợi ý code) mạnh mẽ, dễ quản lý file local, giao diện quen thuộc cho dân lập trình. Tuy nhiên, thiết lập ban đầu phức tạp hơn.
+- Trình duyệt: Không cần cài đặt, dễ dàng chia sẻ file .ipynb cho bạn bè cùng nhóm, tích hợp sẵn Google Drive.
+- Lựa chọn: Nên dùng VS Code khi viết code dự án phức tạp; dùng trình duyệt khi cần ghi chép nhanh hoặc nộp bài tập.
+
+## 4. Gradio và Streamlit trong xây dựng ứng dụng
+
+Cả hai đều là thư viện Python giúp tạo giao diện người dùng (UI) cho các dự án AI/Data Science một cách nhanh chóng.
+
+Gradio
+- Ứng dụng: Thích hợp tạo các bản Demo nhanh cho mô hình (ví dụ: một ô nhập văn bản và một ô trả kết quả từ chatbot).
+- Ngữ cảnh: Dùng trong các buổi thuyết trình ngắn, cần giao diện cực kỳ đơn giản để test chức năng của mô hình AI.
+
+Streamlit
+- Ứng dụng: Thích hợp xây dựng các Dashboard dữ liệu phức tạp, có nhiều bảng biểu, thanh trượt và nhiều trang.
+- Ngữ cảnh: Dùng khi làm đồ án môn học cuối kỳ, cần một ứng dụng hoàn chỉnh có cả phần xử lý dữ liệu và phần hiển thị kết quả chuyên nghiệp.
