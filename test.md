@@ -1,60 +1,46 @@
-# Báo cáo: Tìm hiểu công cụ hỗ trợ LLMs và tạo UI
+# Báo cáo: Tìm hiểu cơ sở dữ liệu, công cụ trực quan hóa và ứng dụng LLM trong việc lập kế hoạch
 
-## 1. Tìm hiểu Ollama và so sánh với LMStudio:
+## 1. Công cụ trực quan hóa Mermaid và tích hợp hệ thống
 
-Ollama là một nền tảng mã nguồn mở cho phép chạy các mô hình ngôn ngữ lớn (LLMs) như Llama 3, Mistral, hay Phi-3 trực tiếp trên máy tính cá nhân một cách đơn giản nhất.
+**Mermaid.js**: Là công cụ mã nguồn mở sử dụng cú pháp dựa trên văn bản để tạo biểu đồ. Điều này giúp cho việc quản lý phiên bản (giống như `git`) dễ dàng hơn vì thực chất biểu đồ chính là các dòng code.
 
-Các gói cung cấp & Nhu cầu sử dụng:
+Các loại biểu đồ tiêu biểu:
 
-- Local Execution (Cá nhân): Chạy offline hoàn toàn, bảo mật dữ liệu tuyệt đối. Phù hợp cho việc học tập, thử nghiệm prompt mà không tốn phí API.
-- Docker/Self-hosted: Phù hợp cho nhóm dự án cần triển khai một "AI Server" nội bộ để nhiều người cùng truy cập qua API.
+- **Flowcharts**: Mô tả thuật toán hoặc quy trình nghiệp vụ (sử dụng `graph TD` hoặc `graph LR`)
+- **Sequence Diagrams**: Đặc biệt hữu ích trong việc mô tả tương tác giữa các Object/Service trong lập trình.
+- **ER Diagrams**: Đóng vai trò quan trọng trong việc phân tích, thiết kế Database (thực thể - quan hệ)
+- **Mind Maps**: Hỗ trợ hệ thống hóa ý tưởng nhanh chóng.
 
-Đề xuất cho môn học: Sử dụng Ollama để chạy các mô hình nhỏ (như Phi-3 3.8B hoặc Llama 3 8B) để hỗ trợ giải thích thuật toán, kiểm tra code Python/C++ ngay trên máy local mà không cần kết nối internet.
+Tích hợp **Notion**: Notion hỗ trợ Native Mermaid. Bằng cách sử dụng khối mã (code block) và chọn ngôn ngữ Mermaid, người dùng có thể chỉnh sửa trực tiếp nội dung văn bản và xem kết quả hiển thị ngay lập tức mà không cần export ảnh từ bên ngoài.
 
-So sánh nhanh Ollama vs. LMStudio
+## 2. Định dạng dữ liệu và sức mạnh xử lý của Pandas
 
-|Tiêu chí|Ollama|LMStudio|
-|---|---|---|
-|Giao diện|Dòng lệnh (CLI) là chính|Giao diện đồ họa (GUI) rất trực quan|
-|Quản lý mô hình|Đơn giản, dùng lệnh `ollama run`|Cho phép tùy chỉnh sâu các thông số kỹ thuật (Temperature, Context Length)|
-|Hiệu suất|Nhẹ, tối ưu cực tốt cho macOS (Apple Silicon) và Linux|Đầy đủ nhưng chiếm nhiều tài nguyên hệ thống hơn để duy trì GUI|
-|Tính ứng dụng|Phù hợp để tích hợp vào code (Backend, API)|Phù hợp để chat và trải nghiệm thử các mô hình mới|
+Một số loại định dạng dữ liệu được sử dụng phổ biến:
 
-## 2. Sử dụng Ollama với Google Colab
+- **CSV (Comma-Seperated Values)**: Định dạng phẳng, dung lượng tối ưu cho các bảng dữ liệu đơn giản. Tuy nhiên, không hỗ trợ kiểu dữ liệu phức tạp hoặc phân cấp.
+- **JSON (JavaScript Object Notation)**: Hỗ trợ cấu trúc dữ liệu lồng nhau hoặc phân cấp, phù hợp cho API hiện đại. Dễ đọc với người dùng nhưng chiếm nhiều dung lượng hơn CSV.
+- **JSONL (JSON Lines)**: Giải pháp cho **Big Data**. Thay vì đọc toàn bộ một mảng JSON với kích thước khổng lồ vào RAM (có thể gây crash), JSONL cho phép đọc và xử lý theo từng dòng (streaming), rất quan trọng khi làm việc với tập dữ liệu lên đến hàng triệu dòng.
 
-Để sử dụng Ollama trên Colab (môi trường không có sẵn Ollama), chúng ta thường dùng các cách sau:
+Thư viện Pandas (Python):
 
-1. Sử dụng Ngrok hoặc Cloudflare Tunnel: Cài đặt Ollama vào runtime của Colab, sau đó dùng tunnel để tạo một public URL kết nối với API của nó.
+- Xử lý dữ liệu: Pandas chuyển đổi các định dạng trên thành **DataFrame** (một dạng cấu trúc bảng xử lý khá tốt)
+- Tính năng chính: Dùng `df.filter()` để lọc dữ liệu, `df.sort_values()` để sắp xếp và `df.describe()` để tạo báo cáo thống kê nhanh (min, max, mean, std). Các phương thức trên đều là những tính năng vô cùng quan trọng và cơ bản cho bước tiền xử lý dữ liệu trước khi đưa chúng vào các mô hình máy học.
 
-2. Sử dụng thư viện Python (như colab-xterm): Mở terminal ngay trong Colab để chạy lệnh cài đặt Ollama trực tiếp.
+## 3. Khai thác Kaggle Datasets cho du lịch Việt Nam
 
-Phân tích & So sánh:
-- Trình duyệt trực tiếp: Tiện lợi nhưng giới hạn thời gian runtime (thường bị ngắt sau một khoảng thời gian không tương tác)
-- Kết nối API: Cho phép dùng GPU mạnh mẽ của Google để chạy các mô hình nặng mà máy cá nhân không gánh nổi
+Ý nghĩa: Kaggle không chỉ là nơi lưu trữ mà còn là cộng đồng đánh giá dữ liệu thông qua "Usability Score".
 
-Kết luận: Nếu máy bạn có GPU yếu, hãy dùng Ollama trên Colab qua Ngrok. Nếu chỉ cần chạy các model nhẹ để học tập, nên dùng Ollama trực tiếp trên máy local để ổn định nhất.
+Đề xuất Dataset phù hợp:...?
 
-## 3. Google Colab trên VS Code
 
-Thao tác cơ bản:
+## 4. Tối ưu hóa Context Window trong ứng dụng LLM
 
-1. Cài đặt Extension Jupyter trên VS Code.
-2. Mở bảng lệnh (Ctrl+Shift+P), chọn "Jupyter: Specify Jupyter Server for Connections".
-3. Chọn "Existing" và dán đường dẫn URL từ Google Colab (lấy từ mục "Connect to a local runtime" hoặc sử dụng Token).
+**Context Window** (Cửa sổ ngữ cảnh): Mỗi Model (như GPT-4 hay Gemini) có một giới hạn token nhất định (ví dụ 32k, 128k hoặc hơn). Nếu nạp toàn bộ Dataset vượt quá giới hạn này, Model sẽ "quên" các thông tin quan trọng ở đầu prompt hoặc không thể xử lý.
 
-So sánh VS Code vs. Trình duyệt:
-- VS Code: Hỗ trợ IntelliSense (gợi ý code) mạnh mẽ, dễ quản lý file local, giao diện quen thuộc cho dân lập trình. Tuy nhiên, thiết lập ban đầu phức tạp hơn.
-- Trình duyệt: Không cần cài đặt, dễ dàng chia sẻ file .ipynb cho bạn bè cùng nhóm, tích hợp sẵn Google Drive.
-- Lựa chọn: Nên dùng VS Code khi viết code dự án phức tạp; dùng trình duyệt khi cần ghi chép nhanh hoặc nộp bài tập.
+Giải pháp đề xuất cho bài toán lập kế hoạch:
 
-## 4. Gradio và Streamlit trong xây dựng ứng dụng
-
-Cả hai đều là thư viện Python giúp tạo giao diện người dùng (UI) cho các dự án AI/Data Science một cách nhanh chóng.
-
-Gradio
-- Ứng dụng: Thích hợp tạo các bản Demo nhanh cho mô hình (ví dụ: một ô nhập văn bản và một ô trả kết quả từ chatbot).
-- Ngữ cảnh: Dùng trong các buổi thuyết trình ngắn, cần giao diện cực kỳ đơn giản để test chức năng của mô hình AI.
-
-Streamlit
-- Ứng dụng: Thích hợp xây dựng các Dashboard dữ liệu phức tạp, có nhiều bảng biểu, thanh trượt và nhiều trang.
-- Ngữ cảnh: Dùng khi làm đồ án môn học cuối kỳ, cần một ứng dụng hoàn chỉnh có cả phần xử lý dữ liệu và phần hiển thị kết quả chuyên nghiệp.
+- Không nên: Đưa trực tiếp toàn bộ file CSV/JSON vào prompt. Điều này làm tăng chi phí (token) và gây nhiễu cho AI.
+- Nên (Quy trình tiền xử lý):
+  - Trích xuất đặc trưng (Feature Extraction): Dùng Pandas để lọc ra những thông tin thực sự cần thiết (ví dụ: chỉ lấy các địa điểm ở Hà Nội nếu người dùng muốn đi Hà Nội).
+  - RAG (Retrieval-Augmented Generation): Chuyển đổi dataset thành Vector Database. Khi người dùng hỏi, hệ thống chỉ lấy ra các "mẩu" dữ liệu liên quan nhất để đưa vào Context Window.
+  - Prompt Engineering: Cung cấp cho LLM cấu trúc dữ liệu dưới dạng tóm tắt (Metadata) kèm theo một vài ví dụ mẫu thay vì toàn bộ dữ liệu thô.
