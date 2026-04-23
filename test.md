@@ -70,4 +70,7 @@ def read_root():
 **Uvicorn là gì?**
 
 Uvicorn là một trình thực thi Server ASGI cực nhanh cho Python. Nó được sử dụng để "chạy" ứng dụng FastAPI. Lệnh phổ biến để khởi chạy là:
+
+```python
 uvicorn main:app --reload
+```
