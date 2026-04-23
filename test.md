@@ -1,46 +1,73 @@
-# Báo cáo: Tìm hiểu cơ sở dữ liệu, công cụ trực quan hóa và ứng dụng LLM trong việc lập kế hoạch
+# Báo cáo: Tìm hiểu công nghệ: Firebase và FastAPI
 
-## 1. Công cụ trực quan hóa Mermaid và tích hợp hệ thống
+## 1. Tổng quan về Google Firebase
 
-**Mermaid.js**: Là công cụ mã nguồn mở sử dụng cú pháp dựa trên văn bản để tạo biểu đồ. Điều này giúp cho việc quản lý phiên bản (giống như `git`) dễ dàng hơn vì thực chất biểu đồ chính là các dòng code.
+**Google Firebase** là một nền tảng phát triển ứng dụng di động và web (BaaS - Backend as a Service) do Google cung cấp. Nó giúp lập trình viên xây dựng ứng dụng nhanh chóng mà không cần tốn quá nhiều công sức thiết lập và quản lý hạ tầng server phức tạp.
 
-Các loại biểu đồ tiêu biểu:
+Các nhóm dịch vụ chính:
 
-- **Flowcharts**: Mô tả thuật toán hoặc quy trình nghiệp vụ (sử dụng `graph TD` hoặc `graph LR`)
-- **Sequence Diagrams**: Đặc biệt hữu ích trong việc mô tả tương tác giữa các Object/Service trong lập trình.
-- **ER Diagrams**: Đóng vai trò quan trọng trong việc phân tích, thiết kế Database (thực thể - quan hệ)
-- **Mind Maps**: Hỗ trợ hệ thống hóa ý tưởng nhanh chóng.
+- **Xây dựng (Build)**: Authentication, Cloud Firestore, Realtime Database, Cloud Functions, Storage.
+- **Phát hành & Giám sát (Release & Monitor)**: Crashlytics, Analytics, Performance Monitoring, App Distribution.
+- **Tương tác (Engage)**: Cloud Messaging (FCM), Remote Config, Dynamic Links.
 
-Tích hợp **Notion**: Notion hỗ trợ Native Mermaid. Bằng cách sử dụng khối mã (code block) và chọn ngôn ngữ Mermaid, người dùng có thể chỉnh sửa trực tiếp nội dung văn bản và xem kết quả hiển thị ngay lập tức mà không cần export ảnh từ bên ngoài.
+## 2. Chi tiết dịch vụ Firebase Authentication
 
-## 2. Định dạng dữ liệu và sức mạnh xử lý của Pandas
+Dịch vụ này cung cấp các giải pháp xác thực người dùng (đăng nhập bằng Email/Password, Google, Facebook, Apple, Phone...)
 
-Một số loại định dạng dữ liệu được sử dụng phổ biến:
+Cơ chế xác thực bằng Firebase ID Token (Frontend + Backend API)
 
-- **CSV (Comma-Seperated Values)**: Định dạng phẳng, dung lượng tối ưu cho các bảng dữ liệu đơn giản. Tuy nhiên, không hỗ trợ kiểu dữ liệu phức tạp hoặc phân cấp.
-- **JSON (JavaScript Object Notation)**: Hỗ trợ cấu trúc dữ liệu lồng nhau hoặc phân cấp, phù hợp cho API hiện đại. Dễ đọc với người dùng nhưng chiếm nhiều dung lượng hơn CSV.
-- **JSONL (JSON Lines)**: Giải pháp cho **Big Data**. Thay vì đọc toàn bộ một mảng JSON với kích thước khổng lồ vào RAM (có thể gây crash), JSONL cho phép đọc và xử lý theo từng dòng (streaming), rất quan trọng khi làm việc với tập dữ liệu lên đến hàng triệu dòng.
+Khi kết hợp ứng dụng Frontend với một Backend API riêng (ví dụ: FastAPI), quy trình diễn ra như sau:
 
-Thư viện Pandas (Python):
+1. Đăng nhập (Frontend): Người dùng nhập thông tin trên giao diện. Frontend gửi thông tin đến Firebase Auth.
+2. Nhận ID Token: Nếu thành công, Firebase trả về một ID Token (dưới dạng JWT - JSON Web Token) cho Frontend.
+3. Gửi yêu cầu (Frontend → Backend): Khi gọi API, Frontend đính kèm ID Token này vào Header (thường là Authorization: Bearer <ID_TOKEN>).
+4. Xác thực (Backend): Backend sử dụng Firebase Admin SDK để kiểm tra tính hợp lệ của Token này (check chữ ký, thời hạn).
+5. Phản hồi: Nếu Token hợp lệ, Backend xử lý logic và trả kết quả về cho người dùng.
 
-- Xử lý dữ liệu: Pandas chuyển đổi các định dạng trên thành **DataFrame** (một dạng cấu trúc bảng xử lý khá tốt)
-- Tính năng chính: Dùng `df.filter()` để lọc dữ liệu, `df.sort_values()` để sắp xếp và `df.describe()` để tạo báo cáo thống kê nhanh (min, max, mean, std). Các phương thức trên đều là những tính năng vô cùng quan trọng và cơ bản cho bước tiền xử lý dữ liệu trước khi đưa chúng vào các mô hình máy học.
+## 3. Chi tiết dịch vụ Firebase Cloud Firestore
 
-## 3. Khai thác Kaggle Datasets cho du lịch Việt Nam
+Cloud Firestore là một cơ sở dữ liệu NoSQL linh hoạt, có khả năng mở rộng cực cao và dữ liệu được đồng bộ hóa theo thời gian thực.
 
-Ý nghĩa: Kaggle không chỉ là nơi lưu trữ mà còn là cộng đồng đánh giá dữ liệu thông qua "Usability Score".
+Mô hình Collection - Document
 
-Đề xuất Dataset phù hợp:...?
+- Document (Tài liệu): Đơn vị dữ liệu cơ bản, lưu trữ dưới dạng các cặp key-value (tương tự JSON).
+- Collection (Bộ sưu tập): Là các "thùng chứa" các Document. Một Collection không chứa dữ liệu trực tiếp mà chỉ chứa các Document.
+- Cấu trúc: Có thể lồng nhau (Collection > Document > Sub-collection > Document).
 
+Khả năng Query dữ liệu theo Field
 
-## 4. Tối ưu hóa Context Window trong ứng dụng LLM
+Firestore cho phép truy vấn linh hoạt nhờ vào cơ chế đánh chỉ mục (indexing):
 
-**Context Window** (Cửa sổ ngữ cảnh): Mỗi Model (như GPT-4 hay Gemini) có một giới hạn token nhất định (ví dụ 32k, 128k hoặc hơn). Nếu nạp toàn bộ Dataset vượt quá giới hạn này, Model sẽ "quên" các thông tin quan trọng ở đầu prompt hoặc không thể xử lý.
+- Lọc dữ liệu: Sử dụng các toán tử so sánh như ==, <, >, <=, >=, array-contains,... trên các trường (fields) cụ thể của Document.
+- Kết hợp: Có thể thực hiện các truy vấn phức tạp (Compound Queries) trên nhiều field cùng lúc.
+- Hiệu suất: Tốc độ truy vấn phụ thuộc vào kích thước tập kết quả trả về, không phụ thuộc vào tổng dung lượng dữ liệu hiện có trong Database.
 
-Giải pháp đề xuất cho bài toán lập kế hoạch:
+## 4. Tìm hiểu về FastAPI và Hệ sinh thái ASGI
 
-- Không nên: Đưa trực tiếp toàn bộ file CSV/JSON vào prompt. Điều này làm tăng chi phí (token) và gây nhiễu cho AI.
-- Nên (Quy trình tiền xử lý):
-  - Trích xuất đặc trưng (Feature Extraction): Dùng Pandas để lọc ra những thông tin thực sự cần thiết (ví dụ: chỉ lấy các địa điểm ở Hà Nội nếu người dùng muốn đi Hà Nội).
-  - RAG (Retrieval-Augmented Generation): Chuyển đổi dataset thành Vector Database. Khi người dùng hỏi, hệ thống chỉ lấy ra các "mẩu" dữ liệu liên quan nhất để đưa vào Context Window.
-  - Prompt Engineering: Cung cấp cho LLM cấu trúc dữ liệu dưới dạng tóm tắt (Metadata) kèm theo một vài ví dụ mẫu thay vì toàn bộ dữ liệu thô.
+**FastAPI là gì?**
+
+FastAPI là một Web Framework hiện đại, hiệu năng cao để xây dựng API với Python 3.8+. Nó dựa trên chuẩn Python type hints, giúp tự động tạo tài liệu (Swagger UI) và kiểm tra dữ liệu đầu vào.
+
+Sử dụng cơ bản
+
+Để sử dụng FastAPI, ta định nghĩa các "Path Operations":
+
+```python
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+```
+
+**Chuẩn ASGI và Server ASGI**
+
+- ASGI (Asynchronous Server Gateway Interface): Là tiêu chuẩn kế thừa của WSGI. Nó cho phép các ứng dụng Python xử lý các kết nối bất đồng bộ (Asynchronous), hỗ trợ tốt cho WebSockets và HTTP/2.
+- Server ASGI: Là phần mềm máy chủ có khả năng chạy các ứng dụng tuân thủ chuẩn ASGI. Khác với server truyền thống, nó không bị chặn (blocking) khi xử lý nhiều yêu cầu cùng lúc.
+
+**Uvicorn là gì?**
+
+Uvicorn là một trình thực thi Server ASGI cực nhanh cho Python. Nó được sử dụng để "chạy" ứng dụng FastAPI. Lệnh phổ biến để khởi chạy là:
+uvicorn main:app --reload
